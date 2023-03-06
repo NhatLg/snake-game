@@ -9,24 +9,30 @@ RIGHT = 0
 
 class Snake:
     def __init__(self):
-        self.snake_segments = []
+        self.segments = []
         self.create_snake()
-        self.head = self.snake_segments[0]
+        self.head = self.segments[0]
 
     def create_snake(self):
         for pos in STARTING_POSITIONS:
-            my_turtle = Turtle()
-            my_turtle.penup()
-            my_turtle.shape("square")
-            my_turtle.setpos(pos)
-            my_turtle.color("white")
-            self.snake_segments.append(my_turtle)
+            self.add_segment(pos)
+
+    def add_segment(self, pos):
+        new_seg = Turtle()
+        new_seg.penup()
+        new_seg.shape("square")
+        new_seg.setpos(pos)
+        new_seg.color("white")
+        self.segments.append(new_seg)
+
+    def extend(self):
+        self.add_segment(self.segments[-1].position())
 
     def move(self):
-        for seg_idx in range(len(self.snake_segments) - 1, 0, -1):
-            new_xcor = self.snake_segments[seg_idx - 1].xcor()
-            new_ycor = self.snake_segments[seg_idx - 1].ycor()
-            self.snake_segments[seg_idx].goto(new_xcor, new_ycor)
+        for seg_idx in range(len(self.segments) - 1, 0, -1):
+            new_xcor = self.segments[seg_idx - 1].xcor()
+            new_ycor = self.segments[seg_idx - 1].ycor()
+            self.segments[seg_idx].goto(new_xcor, new_ycor)
         self.head.forward(MOVE_DISTANCE)
 
     def up(self):
